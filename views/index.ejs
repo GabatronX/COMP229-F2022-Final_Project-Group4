@@ -1,4 +1,4 @@
-<%- include ('../partials/header') %>
+<% include partials/header.ejs %>
 
   <main class="container">
     <h1><%= title %></h1>
@@ -22,7 +22,7 @@
                 <th class="text-center" colspan="3">Actions</th>
             </tr>
 
-            <% for(let i = 0; i < landingList.length; i++) { %>
+            <% for(let i = 0; i < landingList.length; i++) {%>
                 <tr>
                     <td class="text-center"><%= landingList[i].date %></td>
                     <td class="text-center"><%= landingList[i].description %></td>
@@ -47,4 +47,4 @@
     </div>
   </main>
   
-<%- include ('../partials/footer') %>
+<% include partials/footer.ejs %>
