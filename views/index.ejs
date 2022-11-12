@@ -21,28 +21,28 @@
                 <th class="text-center">Complete</th>
                 <th class="text-center" colspan="3">Actions</th>
             </tr>
-
-            <% for(let i = 0; i < landingList.length; i++) {%>
+            <!-- For future use with db -->
+            <%# for(let i = 0; i < landingList.length; i++) {%>
                 <tr>
-                    <td class="text-center"><%= landingList[i].date %></td>
-                    <td class="text-center"><%= landingList[i].description %></td>
-                    <td class="text-center"><%= landingList[i].complete %></td>                        
+                    <td class="text-center"><%#= landingList[i].date %></td>
+                    <td class="text-center"><%#= landingList[i].description %></td>
+                    <td class="text-center"><%#= landingList[i].complete %></td>                        
                     <td class="text-center">
-                        <a href="/landing/opentkt/<%= landingList[i]._id %>" class="btn btn-success btn-sm"> 
+                        <a href="/landing/opentkt/<%#= landingList[i]._id %>" class="btn btn-success btn-sm"> 
                         <i class="fas fa-info"></i> </a>
                     </td>
                     <td class="text-center">
-                        <a href="/landing/edit/<%= landingList[i]._id %>" class="btn btn-primary btn-sm" role="button">
+                        <a href="/landing/edit/<%#= landingList[i]._id %>" class="btn btn-primary btn-sm" role="button">
                         <i class="fas fa-pencil-alt"></i></a>
                     </td>
                     <td class="text-center">
-                        <a href="/landing/delete/<%= landingList[i]._id %>" class="btn btn-danger btn-sm" role="button">
+                        <a href="/landing/delete/<%#= landingList[i]._id %>" class="btn btn-danger btn-sm" role="button">
                         <i class="fas fa-trash-alt">
                         
                         </i></a>
                     </td>
                 </tr>
-            <% } %>
+            <%# } %>
         </table>
     </div>
   </main>
