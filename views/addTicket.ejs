@@ -1,0 +1,74 @@
+
+<% include partials/header.ejs %>
+
+<!-- We use the check function to decide which form action to run - add or edit -->
+<%
+check = function(title, id) {
+    if (title == "Add") {
+        return "/tickets/add"
+    }
+    else
+        return "/tickes/edit/id"
+}
+%>
+<!-- Content for the Add_Edit page -->
+<div class="container">
+    <div class="row">
+        <div class="offset-md-3 col-md-6">
+            <h1><%= title %></h1>
+
+            <form class="form" onsubmit="return check(title, ticket._id)"  method="POST">
+                <div class="form-group">
+                    <input type="hidden"
+                        name="id"
+                        value="<%= ticket._id %>"
+                    >
+                    <label for="dateTextField">Date</label>
+                    <input type="text" class="form-control"
+                        id="dateTextField"
+                        placeholder="Enter the Date"
+                        name="date" 
+                        value="<%= ticket.date %>"
+                        required>
+                </div>              
+
+                <div class="form-group">
+                    <label for="descriptionTextField">Description</label>
+                    <input type="text" class="form-control"
+                        id="descriptionTextField"
+                        placeholder="Enter the description"
+                        name="description" 
+                        value="<%= ticket.description %>"
+                        >
+                </div>
+
+                <div class="form-group">
+                    <label for="completeTextField">Complete</label>
+                    <input type="checkbox"
+                    class="form-check-input"
+                    id="completeTextField"
+                    name="complete" 
+                    value=<%= ticket.complete %>
+                    <%= ticket.complete == true ? "checked" : "" %>
+                    >
+                </div>
+
+                <br/>
+                <button class="btn btn-primary" type="submit">
+                    <i class="fas fa-edit"></i> 
+                    Submit
+                </button>
+                
+                <a href="/" class="btn btn-warning">
+                    <i class="fas fa-undo"></i> 
+                    Cancel
+                </a>
+
+            </form>
+        </div>
+
+    </div>
+</div>
+
+
+<% include partials/footer.ejs %>

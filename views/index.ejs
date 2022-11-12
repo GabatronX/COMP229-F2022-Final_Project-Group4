@@ -11,7 +11,7 @@
     <br>
     <div class="row" >
         <div class="float-start">
-            <a href="/landing/opentkt" class="btn btn-primary" role="button">
+            <a href="/tickets/add" class="btn btn-primary" role="button">
                 <i class="fas fa-plus-circle"></i> 
                 Open a New Ticket
             </a>
@@ -38,15 +38,15 @@
                     <td><%=data.description %></td>
                     <td><%=data.complete %></td>                     
                     <td class="text-center">
-                        <a href="/landing/opentkt/<%#= landingList[i]._id %>" class="btn btn-success btn-sm"> 
+                        <a href="/tickets/open/<%= data._id %>" class="btn btn-success btn-sm"> 
                         <i class="fas fa-info"></i> </a>
                     </td>
                     <td class="text-center">
-                        <a href="/landing/edit/<%#= landingList[i]._id %>" class="btn btn-primary btn-sm" role="button">
+                        <a href="/tickets/edit/<%= data._id %>" class="btn btn-primary btn-sm" role="button">
                         <i class="fas fa-pencil-alt"></i></a>
                     </td>
                     <td class="text-center">
-                        <a href="/landing/delete/<%#= landingList[i]._id %>" class="btn btn-danger btn-sm" role="button">
+                        <a href="/tickets/delete/<%= data._id %>" class="btn btn-danger btn-sm" role="button">
                         <i class="fas fa-trash-alt">
                         
                         </i></a>

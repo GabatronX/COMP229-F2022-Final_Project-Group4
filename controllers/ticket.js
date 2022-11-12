@@ -1,6 +1,6 @@
 // //to use for database 
 
-// let landingModel = require('../models/landing');
+let landingModel = require('../models/tickets').Ticket;
 
 // module.exports.landingOpentkt = function(req, res, next) {  
 //     landingModel.find((err, landingOpentkt) => {
@@ -44,80 +44,78 @@
 // }
 
 
-// module.exports.displayEditPage = (req, res, next) => {
+module.exports.displayEditPage = (req, res, next) => {
     
-//     let id= req.params.id;
+    let id= req.params.id;
 
-//     landingModel.findById(id, (err, itemToEdit) => {
-//         if(err)
-//         {
-//         console.log(err);
-//         res.end(err);
-//         }
-//         else
-//         {   
-//         res.render('landing/opentkt', {
-//             title: 'Edit Item',
-//             landing: itemToEdit,
-//             userName: req.user ? req.user.username : ''
-//             })
-//         }
+    landingModel.findById(id, (err, itemToEdit) => {
+        if(err)
+        {
+        console.log(err);
+        res.end(err);
+        }
+        else
+        {   
+        res.render('addTicket', {
+            title: 'Edit Ticket',
+            ticket: itemToEdit,
+            userName: req.user ? req.user.username : ''
+            })
+        }
     
-//     });
-// }
+    });
+}
 
 
 
 
-// module.exports.processEditPage = (req, res, next) => {
+module.exports.processEditPage = (req, res, next) => {
 
-//     let id = req.params.id
+    let id = req.params.id
     
-//     console.log(req.body);
+    console.log(req.body);
 
-//     let updatedlanding = landingModel({
-//         _id: req.body.id,
-//         date: req.body.date,
-//         description: req.body.description,
-//         complete: req.body.complete ? true : false
-//     });
-
-  
-
-//     landingModel.updateOne({_id: id}, updatedlanding, (err) =>{
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             res.redirect('/landing/opentkt');
-
-//         }
-//     });
-
-// }
+    let updatedlanding = landingModel({
+        _id: req.body.id,
+        date: req.body.date,
+        description: req.body.description,
+        complete: req.body.complete ? true : false
+    });
 
 
-// module.exports.performDelete = (req, res, next) => {
+    landingModel.updateOne({_id: id}, updatedlanding, (err) =>{
+        if(err)
+        {
+            console.log(err);
+            res.end(err);
+        }
+        else
+        {
+            res.redirect('/');
 
-//     let id = req.params.id;
+        }
+    });
+
+}
 
 
-//     landingModel.remove({_id: id}, (err) => {
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             res.redirect('/landing/opentkt');
-//         }
-//     });
 
-// }
+
+// Deletes a ticket based on its id.
+module.exports.performDelete = async (req, res, next) => {
+
+    let id = req.params.id
+
+    console.log("I came here")
+
+    //we find the to do first using the id and then remove it
+    const deleteTicket = await landingModel.findById(id).findOneAndRemove()
+
+    //we redirect user to to home
+    res.redirect('/')
+
+
+}
 
 
 // module.exports.displayOpenTicket = (req, res, next) => {

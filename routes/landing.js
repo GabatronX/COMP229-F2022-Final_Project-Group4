@@ -1,5 +1,5 @@
 
-let landingModel = require('../models/landing');
+let landingModel = require('../models/tickets');
 
 module.exports.landingOpenTicket = function(req, res, next) {  
     landingModel.find((err, landingOpenTicket) => {

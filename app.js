@@ -7,6 +7,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+var ticketsRouter = require('./routes/tickets')
 
 var app = express();
 
@@ -32,9 +33,10 @@ mongoose.connect(db, { useNewUrlParser: true })
   .then(() => console.log("Mongo Atlas Connected"))
   .catch(err => console.log(err));
 
-  
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tickets', ticketsRouter);
 
 app.use(function(req, res, next) {
   next(createError(404));

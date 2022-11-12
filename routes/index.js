@@ -9,4 +9,6 @@ router.get('/', controlerIndex.fetchData, function(req, res, next) {
     res.render('index', {page:'index', menuId:'index'});
   });
 
+
+
 module.exports = router;

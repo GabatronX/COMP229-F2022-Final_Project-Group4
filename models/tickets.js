@@ -15,7 +15,7 @@ const UserSchema = new mongoose.Schema({
     },
     complete: {
         type: Boolean,
-        required: true
+        required: false
     },
   
 });
