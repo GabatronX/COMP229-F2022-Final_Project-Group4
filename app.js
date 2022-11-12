@@ -20,6 +20,19 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'node_modules')));
 
+
+//for db
+const mongoose = require('mongoose');
+
+//databasekey
+const db = require('./config/databasekey').MongoURI;
+
+//connection to atlas using mongoose for simplicity using documentation 
+mongoose.connect(db, { useNewUrlParser: true })
+  .then(() => console.log("Mongo Atlas Connected"))
+  .catch(err => console.log(err));
+
+  
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 

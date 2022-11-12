@@ -1,5 +1,11 @@
-<% include partials/header.ejs %>
+<!DOCTYPE html>
+<html lang="en">
+    <head>
 
+<% include partials/header.ejs %>
+</head>
+
+<body>
   <main class="container">
     <h1><%= title %></h1>
     <br>
@@ -22,11 +28,15 @@
                 <th class="text-center" colspan="3">Actions</th>
             </tr>
             <!-- For future use with db -->
-            <%# for(let i = 0; i < landingList.length; i++) {%>
+            <%
+            if(ticketData.length!=0){
+            var i=1;
+            ticketData.forEach(function(data){
+            %>
                 <tr>
-                    <td class="text-center"><%#= landingList[i].date %></td>
-                    <td class="text-center"><%#= landingList[i].description %></td>
-                    <td class="text-center"><%#= landingList[i].complete %></td>                        
+                    <td><%=data.date; %></td>
+                    <td><%=data.description %></td>
+                    <td><%=data.complete %></td>                     
                     <td class="text-center">
                         <a href="/landing/opentkt/<%#= landingList[i]._id %>" class="btn btn-success btn-sm"> 
                         <i class="fas fa-info"></i> </a>
@@ -42,9 +52,18 @@
                         </i></a>
                     </td>
                 </tr>
-            <%# } %>
+                <%  i++; }) %>
+                <% } else{ %>
+                    <tr>
+                        <td colspan="7">No Data Found</td>
+                    </tr>
+                <% } %>
         </table>
     </div>
   </main>
   
+  </body>
+
 <% include partials/footer.ejs %>
+
+</html>
