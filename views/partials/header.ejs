@@ -22,26 +22,11 @@
       <div class="collapse navbar-collapse" id="collapsibleNavbar">
         <ul class="navbar-nav">
           <ul class="navbar-nav">
-            <li class="nav-item">
-              <% if (title == "Home") { %>
-                  <a class="nav-link active" href="/">
-              <% } else { %>
-                  <a class="nav-link" href="/">
-              <% } %>            
-                  <i class="fas fa-home"></i> Home </a>
-              </a>
-            </li>
-             
-            <li class="nav-item dropdown">
-              <% if (title == "Open New Ticket" || title == "Sign-In") { %>
-                <a class="nav-link active dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa fa-landing"></i> Open New Ticket</a>
-              <% } else { %>
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"><i class="fa fa-landing"></i> Sign In</a>
-              <% } %>       
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="/landing/opentkt"><i class="fa fa-list"></i> Open a New Ticket</a></li>
-              </ul>
-            </li>            
+      
+            <li class="nav-item"><a href="/">HOME</a></li> &nbsp; &nbsp; &nbsp;
+            <li id="home"><a href="/users/signin">Signin</a></li> &nbsp; &nbsp; &nbsp;
+            <li id="home"><a href="/users/signup">Signup</a></li> &nbsp; &nbsp; &nbsp;
+
           </ul>
         </div>
       </div>

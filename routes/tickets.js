@@ -1,6 +1,10 @@
 //for simplicity and time I am posting both the route and controller for adding ticket here we will later change it to specific controllers to handle request
 
 var express = require('express');
+
+const { session } = require('passport');
+const { request } = require('../app');
+
 var router = express.Router();
 
 //we bring the User model from models
@@ -9,8 +13,27 @@ const Ticket = require('../models/tickets').Ticket
 //we use this as controller object
 let ticketController = require('../controllers/ticket');
 
+
+// Helper function for guard purposes
+function requireAuth(req, res, next)
+{
+    // check if the user is logged in
+     // ADD YOUR CODE HERE 
+     // we are using passport isAuthenticated function to state to go next if authentication is good else redirect to signin page
+    if (req.isAuthenticated()) {
+        return next ();
+    } else {
+          //else we redirect user to signin
+          res.redirect('/users/signin') 
+    }
+          
+
+}
+
+
+
 /* GET add ticket page. */
-router.get('/add', function(req, res, next) {
+router.get('/add', requireAuth, function(req, res, next) {
 
    // we create blank to do to pass to add screen
    let newTicket = Ticket({
@@ -23,7 +46,7 @@ router.get('/add', function(req, res, next) {
 });
 
 //Add new ticket
-router.post('/add', (req, res) => {
+router.post('/add', requireAuth, (req, res) => {
     //destructuring  from form body
     const {date, description, complete} = req.body;
 
@@ -48,10 +71,10 @@ router.post('/add', (req, res) => {
 
 
 // Routers for edit I have divded the router and controller here unlike above - will do above soonish
-router.get('/edit/:id',  ticketController.displayEditPage);
-router.post('/edit/:id',  ticketController.processEditPage);
+router.get('/edit/:id', requireAuth,  ticketController.displayEditPage);
+router.post('/edit/:id', requireAuth,  ticketController.processEditPage);
 
-router.get('/delete/:id',  ticketController.performDelete);
+router.get('/delete/:id', requireAuth,  ticketController.performDelete);
 
 
 module.exports = router;

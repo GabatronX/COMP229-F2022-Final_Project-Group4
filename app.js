@@ -4,12 +4,31 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
+let session = require('express-session');
+
+let flash = require('connect-flash');
+let passport = require('passport');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var ticketsRouter = require('./routes/tickets')
 
 var app = express();
+
+//added session here
+app.use(session({
+  saveUninitialized: true,
+  resave: true,
+  secret: "sessionSecret"
+}));
+
+
+// Sets up passport
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
+
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
