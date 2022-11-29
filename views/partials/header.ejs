@@ -28,7 +28,7 @@
 
             <li id="home">
               <% if (typeof userName == 'string' && userName) { %>
-                <a href="/users/signout">Signout</a>
+                <a href="/users/signout">Signout <%= userName %></a>
               <% } else { %>
                 <a href="/users/signin">Signin</a>
               <% } %>     
