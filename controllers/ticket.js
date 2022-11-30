@@ -1,158 +1,75 @@
-// //to use for database 
+// //to use for database
 
-let landingModel = require('../models/tickets').Ticket;
-
-// module.exports.landingOpentkt = function(req, res, next) {  
-//     landingModel.find((err, landingOpentkt) => {
-//         console.log(landingOpentkt);
-//         if(err)
-//         {
-//             return console.error(err);
-//         }
-//         else
-//         {
-//             res.render('landing/opentkt', {
-//                 title: 'landing Opentkt', 
-//                 landingOpentkt: landingOpentkt,
-//                 userName: req.user ? req.user.username : ''
-//             })            
-//         }
-//     });
-// }
-
-
-// // Gets a landing by id and renders the details page.
-// module.exports.details = (req, res, next) => {
-    
-//     let id = req.params.id;
-
-//     landingModel.findById(id, (err, landingToShow) => {
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             //show the edit view
-//             res.render('landing/details', {
-//                 title: 'Ticket Details', 
-//                 landing: landingToShow
-//             })
-//         }
-//     });
-// }
-
-
-module.exports.displayEditPage = (req, res, next) => {
-    
-    let id= req.params.id;
-
-    landingModel.findById(id, (err, itemToEdit) => {
-        if(err)
-        {
-        console.log(err);
-        res.end(err);
-        }
-        else
-        {   
-        res.render('addTicket', {
-            title: 'Edit Ticket',
-            ticket: itemToEdit,
-            userName: req.user ? req.user.username : ''
-            })
-        }
-    
-    });
+const { Ticket } = require("../models/tickets");
+function getErrorMessage(err) {
+  if (err.errors) {
+    for (let errName in err.errors) {
+      if (err.errors[errName].message) return err.errors[errName].message;
+    }
+  }
+  if (err.message) {
+    return err.message;
+  }
+  return "Unknown server error";
 }
 
+module.exports.ticketList = async function (req, res, next) {
+  try {
+    const tickets = await Ticket.find().populate({ path: "owner" });
+    res.status(200).json({
+      success: true,
+      tickets,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
+module.exports.processEdit = (req, res, next) => {
+  try {
+    const id = req.params.id;
+    if (!id) throw new Error("Invalid");
 
-
-
-module.exports.processEditPage = (req, res, next) => {
-
-    let id = req.params.id
-    
-    console.log(req.body);
-
-    let updatedlanding = landingModel({
-        _id: req.body.id,
-        date: req.body.date,
-        description: req.body.description,
-        complete: req.body.complete ? true : false
+    const updatedTicket = Ticket({
+      _id: id,
+      date: req.body.date,
+      description: req.body.description,
+      complete: Boolean(req.body.complete),
+      owner: req.body.owner ? req.body.owner : req.payload.id,
     });
 
-
-    landingModel.updateOne({_id: id}, updatedlanding, (err) =>{
-        if(err)
-        {
-            console.log(err);
-            res.end(err);
-        }
-        else
-        {
-            res.redirect('/');
-
-        }
+    Ticket.updateOne({ _id: id }, updatedTicket, (err, result) => {
+      if (err || result.modifiedCount === 0) {
+        res.status(400).json({
+          success: false,
+          message: err ? getErrorMessage(err) : "Item Not Found.",
+        });
+      } else {
+        res.status(200).json({
+          success: true,
+          message: "Item updated successfully",
+        });
+      }
     });
-
-}
-
-
-
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: getErrorMessage(error),
+    });
+  }
+};
 
 // Deletes a ticket based on its id.
 module.exports.performDelete = async (req, res, next) => {
+  let id = req.params.id;
 
-    let id = req.params.id
+  console.log("I came here");
 
-    console.log("I came here")
+  //we find the to do first using the id and then remove it
+  const deleteTicket = await landingModel.findById(id).findOneAndRemove();
 
-    //we find the to do first using the id and then remove it
-    const deleteTicket = await landingModel.findById(id).findOneAndRemove()
-
-    //we redirect user to to home
-    res.redirect('/')
-
-
-}
-
-
-// module.exports.displayOpenTicket = (req, res, next) => {
- 
-//     let newItem = landingModel();
-    
-//     res.render('landing/opentkt',{
-//         title: 'Open a New Ticket',
-//         landing: newItem,
-//         userName: req.user ? req.user.username : ''
-//     })
-
-// }
-
-
-// module.exports.processOpenTicket = (req, res, next) => {
-
-//     console.log(req.body);
-
-//     let newItem = landingModel({
-//         _id: req.body.id,
-//         date: req.body.date,
-//         description: req.body.description,
-//         complete: req.body.complete ? true : false
-//     });
-    
-//     landingModel.create(newItem, (err, landing) =>{
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             console.log(landing);
-//             res.redirect('/landing/opentkt');
-//         }
-
-//     });
-// }
+  //we redirect user to to home
+  res.redirect("/");
+};
