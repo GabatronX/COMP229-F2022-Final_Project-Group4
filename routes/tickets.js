@@ -13,7 +13,7 @@ const Ticket = require('../models/tickets').Ticket
 //we use this as controller object
 let ticketController = require('../controllers/ticket');
 
-
+  
 // Helper function for guard purposes
 function requireAuth(req, res, next)
 {
@@ -32,7 +32,7 @@ function requireAuth(req, res, next)
 
 
 
-/* GET add ticket page. */
+// /* GET add ticket page. */
 router.get('/add', requireAuth, function(req, res, next) {
 
    // we create blank to do to pass to add screen
@@ -44,6 +44,7 @@ router.get('/add', requireAuth, function(req, res, next) {
 });
   res.render('addTicket', {page:'addTicket', title: 'Add Ticket', ticket: newTicket, menuId:'addTicket'});
 });
+
 
 //Add new ticket
 router.post('/add', requireAuth, (req, res) => {
@@ -63,15 +64,20 @@ router.post('/add', requireAuth, (req, res) => {
     .then(ticket => {
       //if successfully we redirect to home as new ticket addition is completed
       console.log(newTicket);
-      res.redirect('/');
+
+      res.json('New ticket added');
     })
     .catch(err => console.log(err))
+
+    return res.json("Error: ", err)
 
 })
 
 
 // Routers for edit I have divded the router and controller here unlike above - will do above soonish
+
 router.get('/edit/:id', requireAuth,  ticketController.displayEditPage);
+
 router.post('/edit/:id', requireAuth,  ticketController.processEditPage);
 
 router.get('/delete/:id', requireAuth,  ticketController.performDelete);

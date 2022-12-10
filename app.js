@@ -9,6 +9,10 @@ let session = require('express-session');
 let flash = require('connect-flash');
 let passport = require('passport');
 
+//added latest dec 10
+const bodyParser = require('body-parser');
+const cors = require('cors');
+
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
@@ -22,6 +26,13 @@ app.use(session({
   resave: true,
   secret: "sessionSecret"
 }));
+
+app.use(cors());
+
+// Configuring body parser middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
 
 
 // Sets up passport

@@ -65,19 +65,15 @@ module.exports.signup = function(req, res, next) {
         let message = getErrorMessage(err);
 
         req.flash('error', message);
-        return res.render('auth/signup', {
-          title: 'Sign-up Form',
-          messages: req.flash('error'),
-          user: user
-        });
+        return res.json('error', err)
       }
       req.login(user, (err) => {
         if (err) return next(err);
-        return res.redirect('/');
+        return res.json('successfully added user');
       });
     });
   } else {
-    return res.redirect('/');
+    return res.json('/');
   }
 };
 
@@ -86,15 +82,13 @@ module.exports.signout = function(req, res, next) {
     if (err) { 
       return next(err); 
     }
-    res.redirect('/');
+    res.json('Signout successful');
   });
 };
 
 module.exports.signin = function(req, res, next){
-  passport.authenticate('local', {   
-    successRedirect: req.session.url || '/',
-    failureRedirect: '/users/signin',
-    failureFlash: true
+  passport.authenticate('local', { 
+    token: 'loggeduser'
   })(req, res, next);
   delete req.session.url;
 }

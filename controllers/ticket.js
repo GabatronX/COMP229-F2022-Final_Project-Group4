@@ -91,7 +91,7 @@ module.exports.processEditPage = (req, res, next) => {
         }
         else
         {
-            res.redirect('/');
+            res.json("Updated Successfully");
 
         }
     });
@@ -112,7 +112,7 @@ module.exports.performDelete = async (req, res, next) => {
     const deleteTicket = await landingModel.findById(id).findOneAndRemove()
 
     //we redirect user to to home
-    res.redirect('/')
+    res.json('Successfully deleted')
 
 
 }
