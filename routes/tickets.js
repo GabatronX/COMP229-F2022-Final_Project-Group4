@@ -3,7 +3,6 @@
 var express = require('express');
 
 const { session } = require('passport');
-const { request } = require('../app');
 
 var router = express.Router();
 

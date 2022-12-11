@@ -28,6 +28,7 @@ app.use(session({
 }));
 
 app.use(cors());
+app.options('*', cors());
 
 // Configuring body parser middleware
 app.use(bodyParser.urlencoded({ extended: false }));
