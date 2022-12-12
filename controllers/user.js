@@ -69,7 +69,7 @@ module.exports.signup = function(req, res, next) {
         let message = getErrorMessage(err);
 
         req.flash('error', message);
-        return res.json('error', err)
+        res.status(400).json(err)
       }
       req.login(user, (err) => {
         if (err) return next(err);

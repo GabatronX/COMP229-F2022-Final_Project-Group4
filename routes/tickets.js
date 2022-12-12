@@ -6,7 +6,8 @@ var router = express.Router();
 let ticketController = require('../controllers/ticket');
 let authController = require('../controllers/auth');
 
-const Ticket = require('../models/tickets').Ticket
+const {Ticket} = require('../models/tickets')
+const {getNextSequenceValue} = require('../models/counters')
 
 
 
@@ -53,23 +54,24 @@ router.post('/add', authController.requireAuth, (req, res) => {
      //We initialize newTicket as Ticket from our model
     const newTicket = new Ticket ({
       date,
-      record,
+      record: date+"-"+getNextSequenceValue("tickets"+date),
       priority,
       description,
       status: "new"
     });
 
     //save Ticket which gives us a promise, so we handle error with console err
-    newTicket.save()
+    return newTicket.save()
     .then(ticket => {
       //if successfully we redirect to home as new ticket addition is completed
       console.log(newTicket);
 
       res.json('New ticket added');
     })
-    .catch(err => console.log(err))
-
-    return res.json("Error: ", err)
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json(err)
+    })
 
 })
 
