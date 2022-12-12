@@ -79,8 +79,9 @@ module.exports.processEditPage = (req, res, next) => {
     let updatedlanding = landingModel({
         _id: id,
         date: req.body.date,
+        priority: req.body.priority,
         description: req.body.description,
-        complete: req.body.complete ? true : false
+        status: req.body.status 
     });
 
 

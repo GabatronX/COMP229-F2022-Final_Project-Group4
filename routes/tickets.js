@@ -37,8 +37,8 @@ router.get('/add', authController.requireAuth, function(req, res, next) {
    let newTicket = Ticket({
     _id: "",
     date: "",
+    priority: "",
     description: "",
-    complete: false
 });
   res.render('addTicket', {page:'addTicket', title: 'Add Ticket', ticket: newTicket, menuId:'addTicket'});
 });
@@ -47,14 +47,16 @@ router.get('/add', authController.requireAuth, function(req, res, next) {
 //Add new ticket
 router.post('/add', authController.requireAuth, (req, res) => {
     //destructuring  from form body
-    const {date, description, complete} = req.body;
+    const {date, priority, description} = req.body;
 
 
      //We initialize newTicket as Ticket from our model
     const newTicket = new Ticket ({
       date,
+      record,
+      priority,
       description,
-      complete
+      status: "new"
     });
 
     //save Ticket which gives us a promise, so we handle error with console err
@@ -73,9 +75,6 @@ router.post('/add', authController.requireAuth, (req, res) => {
 
 
 // Routers for edit I have divded the router and controller here unlike above - will do above soonish
-
-// router.get('/edit/:id', authController.requireAuth, authController.isAllowed,  ticketController.displayEditPage);
-router.get('/edit/:id', authController.requireAuth,  ticketController.displayEditPage);
 
 // router.put('/edit/:id', authController.requireAuth, authController.isAllowed, ticketController.processEditPage);
 router.put('/edit/:id', authController.requireAuth, ticketController.processEditPage);
