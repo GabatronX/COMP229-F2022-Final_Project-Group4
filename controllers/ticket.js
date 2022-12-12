@@ -72,11 +72,12 @@ module.exports.displayEditPage = (req, res, next) => {
 module.exports.processEditPage = (req, res, next) => {
 
     let id = req.params.id
+    console.log(id)
     
     console.log(req.body);
 
     let updatedlanding = landingModel({
-        _id: req.body.id,
+        _id: id,
         date: req.body.date,
         description: req.body.description,
         complete: req.body.complete ? true : false
