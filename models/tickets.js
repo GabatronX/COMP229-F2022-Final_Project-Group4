@@ -4,7 +4,8 @@
 //we will be creating the ticket schema here with mongoose
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema(
+    {
    date: {
         type: String,
         required: false
@@ -17,8 +18,15 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         required: false
     },
-  
-});
+    owner: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+    }
+},
+{
+    collection: "tickets"
+}
+  );
 
 
 const Ticket = mongoose.model('Ticket', UserSchema);
