@@ -4,7 +4,7 @@
 //we will be creating the ticket schema here with mongoose
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema(
+const TicketsSchema = new mongoose.Schema(
     {
    date: {
         type: String,
@@ -23,7 +23,7 @@ const UserSchema = new mongoose.Schema(
         required: false
     },
     status: {
-        type: Boolean,
+        type: String,
         required: false
     },
     owner: {
@@ -37,7 +37,7 @@ const UserSchema = new mongoose.Schema(
   );
 
 
-const Ticket = mongoose.model('Ticket', UserSchema);
+const Ticket = mongoose.model('Ticket', TicketsSchema);
 
 //we are exporting ticket data directly so we can use in our table
 module.exports = {
