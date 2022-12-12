@@ -10,11 +10,19 @@ const UserSchema = new mongoose.Schema(
         type: String,
         required: false
     },
+    record: {
+        type: String,
+        required: false
+    },
+    priority: {
+        type: String,
+        required: false
+    },
     description: {
         type: String,
         required: false
     },
-    complete: {
+    status: {
         type: Boolean,
         required: false
     },
