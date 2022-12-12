@@ -1,6 +1,9 @@
 let User = require('../models/user');
 let passport = require('passport');
 
+let jwt = require('jsonwebtoken');
+let config = require('../config/config');
+
 function getErrorMessage(err) {
   console.log("===> Erro: " + err);
   let message = '';
@@ -53,6 +56,7 @@ module.exports.renderSignup = function(req, res, next) {
 };
 
 module.exports.signup = function(req, res, next) {
+  console.log(req.body);
   if (!req.user && req.body.password === req.body.password_confirm) {
     console.log(req.body);
 
@@ -86,9 +90,68 @@ module.exports.signout = function(req, res, next) {
   });
 };
 
+// module.exports.signin = function(req, res, next){
+//   passport.authenticate('local', { 
+//     token: 'loggeduser'
+//   })(req, res, next);
+//   delete req.session.url;
+// }
 module.exports.signin = function(req, res, next){
-  passport.authenticate('local', { 
-    token: 'loggeduser'
-  })(req, res, next);
-  delete req.session.url;
+  passport.authenticate(
+    'login', 
+  async (err, user, info) => {
+    try {
+      if (err || !user) {
+        return res.status(400).json(
+            { 
+              success: false, 
+              message: err || info.message
+            }
+          );
+      }
+  
+      req.login(
+          user,
+          { session: false },
+          async (error) => {
+            if (error) {
+              return next(error);
+            }
+
+            // Generating the JWT token.
+            const payload = 
+              { 
+                id: user._id, 
+                email: user.email 
+              };
+            const token = jwt.sign(
+              { 
+                payload: payload
+              }, 
+              config.SECRETKEY, 
+              { 
+                algorithm: 'HS512', 
+                expiresIn: "20min"
+              }
+            );
+    
+            return res.json(
+              { 
+                success: true, 
+                token: token 
+              }
+            );
+          }
+        );
+      } catch (error) {
+
+        console.log(error);
+        return res.status(400).json(
+          { 
+            success: false, 
+            message: getErrorMessage(error)
+          });
+      }
+    }
+  )(req, res, next);
 }
