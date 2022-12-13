@@ -31,18 +31,18 @@ const {getNextSequenceValue} = require('../models/counters')
 /* GET list of items */
 // router.get('/list', inventoryController.inventoryList);
 
-// /* GET add ticket page. */
-router.get('/add', authController.requireAuth, function(req, res, next) {
+// // /* GET add ticket page. */
+// router.get('/add', authController.requireAuth, function(req, res, next) {
 
-   // we create blank to do to pass to add screen
-   let newTicket = Ticket({
-    _id: "",
-    date: "",
-    priority: "",
-    description: "",
-});
-  res.render('addTicket', {page:'addTicket', title: 'Add Ticket', ticket: newTicket, menuId:'addTicket'});
-});
+//    // we create blank to do to pass to add screen
+//    let newTicket = Ticket({
+//     _id: "",
+//     date: "",
+//     priority: "",
+//     description: "",
+// });
+//   res.render('addTicket', {page:'addTicket', title: 'Add Ticket', ticket: newTicket, menuId:'addTicket'});
+// });
 
 
 //Add new ticket
@@ -54,7 +54,7 @@ router.post('/add', authController.requireAuth, (req, res) => {
      //We initialize newTicket as Ticket from our model
     const newTicket = new Ticket ({
       date,
-      record: date+"-"+getNextSequenceValue("tickets"+date),
+      record: date+"-"+getNextSequenceValue("ticket_id"),
       priority,
       description,
       status: "new"

@@ -1,6 +1,6 @@
 // //to use for database 
 
-let landingModel = require('../models/tickets').Ticket;
+let {Ticket} = require('../models/tickets');
 
 // module.exports.landingOpentkt = function(req, res, next) {  
 //     landingModel.find((err, landingOpentkt) => {
@@ -48,7 +48,7 @@ module.exports.displayEditPage = (req, res, next) => {
     
     let id= req.params.id;
 
-    landingModel.findById(id, (err, itemToEdit) => {
+    ticketModel.findById(id, (err, itemToEdit) => {
         if(err)
         {
         console.log(err);
@@ -76,7 +76,7 @@ module.exports.processEditPage = (req, res, next) => {
     
     console.log(req.body);
 
-    let updatedlanding = landingModel({
+    let updatedTicket = Ticket({
         _id: id,
         date: req.body.date,
         priority: req.body.priority,
@@ -85,7 +85,7 @@ module.exports.processEditPage = (req, res, next) => {
     });
 
 
-    landingModel.updateOne({_id: id}, updatedlanding, (err) =>{
+    Ticket.updateOne({_id: id}, updatedTicket, (err) =>{
         if(err)
         {
             console.log(err);
@@ -101,8 +101,6 @@ module.exports.processEditPage = (req, res, next) => {
 }
 
 
-
-
 // Deletes a ticket based on its id.
 module.exports.performDelete = async (req, res, next) => {
 
@@ -111,50 +109,10 @@ module.exports.performDelete = async (req, res, next) => {
     console.log("I came here")
 
     //we find the to do first using the id and then remove it
-    const deleteTicket = await landingModel.findById(id).findOneAndRemove()
+    const deleteTicket = await ticketModel.findById(id).findOneAndRemove()
 
     //we redirect user to to home
     res.json('Successfully deleted')
 
 
 }
-
-
-// module.exports.displayOpenTicket = (req, res, next) => {
- 
-//     let newItem = landingModel();
-    
-//     res.render('landing/opentkt',{
-//         title: 'Open a New Ticket',
-//         landing: newItem,
-//         userName: req.user ? req.user.username : ''
-//     })
-
-// }
-
-
-// module.exports.processOpenTicket = (req, res, next) => {
-
-//     console.log(req.body);
-
-//     let newItem = landingModel({
-//         _id: req.body.id,
-//         date: req.body.date,
-//         description: req.body.description,
-//         complete: req.body.complete ? true : false
-//     });
-    
-//     landingModel.create(newItem, (err, landing) =>{
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             console.log(landing);
-//             res.redirect('/landing/opentkt');
-//         }
-
-//     });
-// }

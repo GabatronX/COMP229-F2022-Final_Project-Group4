@@ -40,7 +40,6 @@ module.exports={
     fetchData:function(req, res){
       
       fetchModel.fetchData(function(data){
-          //res.render('index',{page:'index', title: 'Home', userName: req.user ? req.user.username : '', ticketData:data});
           res.json({Tickets: data})
       })
 
