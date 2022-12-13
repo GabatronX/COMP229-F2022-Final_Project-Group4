@@ -15,13 +15,14 @@ const CountersSchema = new mongoose.Schema(
   );
 
 
-const Counters = mongoose.model('Counters', CountersSchema);
+const Counters = mongoose.model('Counter', CountersSchema);
 
 //we are exporting ticket data directly so we can use in our table
 module.exports = {Counters}
 
  module.exports.getNextSequenceValue=(sequenceName)=>{
-    var sequenceDocument = Counters.findByIdAndUpdate(sequenceName,
+    var sequenceDocument = Counters.findOneAndUpdate(sequenceName,
+        
         {$inc:{sequence_value:1}},
         {new:true}
      );
