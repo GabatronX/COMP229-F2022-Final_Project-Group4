@@ -34,7 +34,13 @@ let UserSchema = mongoose.Schema(
         created: {
             type: Date,
             default: Date.now
-        }
+        },
+        admin: Boolean
+        // permission: {
+        //     type: String, 
+        //     required: true, 
+        //     default:'user' 
+        // }
     },
     {
         collection: "user"

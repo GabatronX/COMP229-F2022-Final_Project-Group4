@@ -1,3 +1,4 @@
+const { authenticate } = require('passport');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const ExtractJWT = require('passport-jwt').ExtractJwt;
@@ -54,6 +55,17 @@ module.exports = function() {
         });
     }));
 };
+
+const isAdmin = (req, res, next)=>{
+    authenticate(req, res, ()=>{
+        if(req.user.isAdmin){
+            next()
+        }
+        else{
+            res.status(403).send("Access denied. Not authorized");
+        }
+    })
+}
 
 // module.exports = function() {
 //     passport.use(new LocalStrategy((username, password, done)=>{

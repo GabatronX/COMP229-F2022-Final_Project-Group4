@@ -5,6 +5,9 @@ var router = express.Router();
 
 let ticketController = require('../controllers/ticket');
 let authController = require('../controllers/auth');
+// let isAdmin = require('../controllers/auth');
+
+// const{isAdmin} = require('../controllers/auth')
 
 const {Ticket} = require('../models/tickets')
 const {getNextSequenceValue} = require('../models/counters')
@@ -46,7 +49,7 @@ router.get('/add', authController.requireAuth, function(req, res, next) {
 
 
 //Add new ticket
-router.post('/add', authController.requireAuth, (req, res) => {
+router.post('/add', authController.requireAuth, authController.isAllowed, (req, res) => {
     //destructuring  from form body
     const {date, priority, description} = req.body;
 
@@ -79,9 +82,11 @@ router.post('/add', authController.requireAuth, (req, res) => {
 // Routers for edit I have divded the router and controller here unlike above - will do above soonish
 
 // router.put('/edit/:id', authController.requireAuth, authController.isAllowed, ticketController.processEditPage);
-router.put('/edit/:id', authController.requireAuth, ticketController.processEditPage);
+router.put('/edit/:id', authController.requireAuth, authController.isAllowed, ticketController.processEditPage);
 
-router.get('/delete/:id', authController.requireAuth, ticketController.performDelete);
-
+router.get('/delete/:id', authController.requireAuth, authController.isAllowed, ticketController.performDelete);
 
 module.exports = router;
+
+///* GET list of items */
+// router.get('/list', inventoryController.inventoryList);
