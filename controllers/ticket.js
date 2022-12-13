@@ -2,48 +2,6 @@
 
 let {Ticket} = require('../models/tickets');
 
-// module.exports.landingOpentkt = function(req, res, next) {  
-//     landingModel.find((err, landingOpentkt) => {
-//         console.log(landingOpentkt);
-//         if(err)
-//         {
-//             return console.error(err);
-//         }
-//         else
-//         {
-//             res.render('landing/opentkt', {
-//                 title: 'landing Opentkt', 
-//                 landingOpentkt: landingOpentkt,
-//                 userName: req.user ? req.user.username : ''
-//             })            
-//         }
-//     });
-// }
-
-
-// // Gets a landing by id and renders the details page.
-// module.exports.details = (req, res, next) => {
-    
-//     let id = req.params.id;
-
-//     landingModel.findById(id, (err, landingToShow) => {
-//         if(err)
-//         {
-//             console.log(err);
-//             res.end(err);
-//         }
-//         else
-//         {
-//             //show the edit view
-//             res.render('landing/details', {
-//                 title: 'Ticket Details', 
-//                 landing: landingToShow
-//             })
-//         }
-//     });
-// }
-
-
 module.exports.displayEditPage = (req, res, next) => {
     
     let id= req.params.id;
@@ -65,8 +23,6 @@ module.exports.displayEditPage = (req, res, next) => {
     
     });
 }
-
-
 
 
 module.exports.processEditPage = (req, res, next) => {
