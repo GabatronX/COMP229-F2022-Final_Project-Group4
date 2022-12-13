@@ -57,13 +57,13 @@ console.log("isAllowed running")
                 let currentUser = await UserModel.findOne({_id: req.payload.id}, 'admin');
                 console.log("Current User", currentUser)
 
-                if(currentUser.admin != true){ // If the user is not a Admin
+                if(currentUser.admin != true && ticketItem.status != req.payload.status){ // If the user is not a Admin, cannot modify status
                     
                     console.log('====> Not authorized');
                     return res.status(403).json(
                         { 
                             success: false, 
-                            message: 'User is not authorized to modify this item.'
+                            message: 'User is not authorized to modify the status.'
                         }
                     );
                 }     
