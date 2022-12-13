@@ -62,18 +62,18 @@ module.exports.signup = function(req, res, next) {
     user.provider = 'local';
     console.log(user);
 
-    user.save((err) => {
+    return user.save((err) => {
       if (err) {
         let message = getErrorMessage(err);
 
         req.flash('error', message);
         res.status(400).json(err)
-      }
+      }else{
       req.login(user, (err) => {
         if (err) return next(err);
         return res.json('successfully added user');
       });
-    });
+  }});
   } else {
     return res.json('/');
   }
